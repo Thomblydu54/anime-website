@@ -6,7 +6,7 @@ const isProd = process.env.NODE_ENV === "production";
 
 export default defineConfig({
 
-  site: "https://anime_application",
+  site: "https://thomblydu54.github.io",
 
   base: isProd ? "/anime-website/" : "/",
 
