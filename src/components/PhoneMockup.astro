@@ -10,7 +10,7 @@ const screenshots = [
 ---
 
 <div class="phone-wrapper">
-  <div class="phone">
+  <div id="phone" class="phone">
 
     <div class="phone-notch"></div>
 
@@ -31,7 +31,7 @@ const screenshots = [
 </div>
 
 <script>
-  const phone = document.currentScript?.previousElementSibling;
+  const phone = document.getElementById("phone");
 
   if (phone) {
 
@@ -54,146 +54,125 @@ const screenshots = [
 
 <style>
 
-.phone-wrapper{
+.phone-wrapper {
 
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-animation:float 5s ease-in-out infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: float 5s ease-in-out infinite;
 
 }
 
-.phone{
+.phone {
 
-position:relative;
+  position: relative;
+  width: 380px;
+  aspect-ratio: 9 / 19;
+  border-radius: 42px;
+  overflow: hidden;
+  background: #000;
+  border: 10px solid #151515;
 
-width:380px;
+  box-shadow:
+    0 40px 80px rgba(0,0,0,.6),
+    0 0 80px rgba(139,92,246,.30);
 
-aspect-ratio:9/19;
-
-border-radius:42px;
-
-overflow:hidden;
-
-background:#000;
-
-border:10px solid #151515;
-
-box-shadow:
-0 40px 80px rgba(0,0,0,.6),
-0 0 80px rgba(139,92,246,.30);
-
-transform:perspective(1200px) rotateY(-8deg) rotateX(3deg);
+  transform:
+    perspective(1200px)
+    rotateY(-8deg)
+    rotateX(3deg);
 
 }
 
-.phone-notch{
+.phone-notch {
 
-position:absolute;
-
-top:10px;
-
-left:50%;
-
-transform:translateX(-50%);
-
-width:120px;
-
-height:24px;
-
-background:#111;
-
-border-radius:999px;
-
-z-index:20;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 24px;
+  background: #111;
+  border-radius: 999px;
+  z-index: 20;
 
 }
 
-.phone-glare{
+.phone-glare {
 
-position:absolute;
+  position: absolute;
+  top: 0;
+  left: -40%;
+  width: 40%;
+  height: 100%;
 
-top:0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,.08),
+    transparent
+  );
 
-left:-40%;
+  transform: skewX(-20deg);
 
-width:40%;
+  animation: shine 6s linear infinite;
 
-height:100%;
-
-background:linear-gradient(
-90deg,
-transparent,
-rgba(255,255,255,.08),
-transparent
-);
-
-transform:skewX(-20deg);
-
-animation:shine 6s linear infinite;
-
-z-index:15;
-
-pointer-events:none;
+  z-index: 15;
+  pointer-events: none;
 
 }
 
-.screen{
+.screen {
 
-position:absolute;
+  position: absolute;
+  inset: 0;
 
-inset:0;
+  width: 100%;
+  height: 100%;
 
-width:100%;
+  object-fit: cover;
 
-height:100%;
+  opacity: 0;
 
-object-fit:cover;
-
-opacity:0;
-
-transition:opacity .8s ease;
+  transition: opacity .8s ease;
 
 }
 
-.screen.active{
+.screen.active {
 
-opacity:1;
-
-}
-
-@keyframes float{
-
-0%,100%{
-
-transform:translateY(0);
+  opacity: 1;
 
 }
 
-50%{
+@keyframes float {
 
-transform:translateY(-12px);
+  0%,100% {
 
-}
+    transform: translateY(0);
 
-}
+  }
 
-@keyframes shine{
+  50% {
 
-0%{
+    transform: translateY(-12px);
 
-left:-40%;
-
-}
-
-100%{
-
-left:140%;
+  }
 
 }
+
+@keyframes shine {
+
+  0% {
+
+    left: -40%;
+
+  }
+
+  100% {
+
+    left: 140%;
+
+  }
 
 }
 
