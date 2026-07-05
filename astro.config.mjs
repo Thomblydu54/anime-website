@@ -6,9 +6,9 @@ const isProd = process.env.NODE_ENV === "production";
 
 export default defineConfig({
 
-  site: "https://anime_application.com",
+  site: "https://thomblydu54.github.io",
 
-  base: isProd ? "/anime_application/" : "/",
+  base: isProd ? "/anime-website/" : "/",
 
   vite: {
     plugins: [tailwindcss()],
