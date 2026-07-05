@@ -1,12 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+  const BASE_URL =
+    document.querySelector("base")?.getAttribute("href") ||
+    import.meta.env.BASE_URL;
+
   const MAX_PETALS = 40;
 
   function createPetal() {
 
     const petal = document.createElement("img");
 
-    petal.src = "/petal.svg";
+    petal.src = `${BASE_URL}petal.svg`;
 
     petal.className = "petal";
 
