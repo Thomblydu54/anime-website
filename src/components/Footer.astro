@@ -1,0 +1,111 @@
+---
+import Container from "./Container.astro";
+---
+
+<footer class="mt-32 border-t border-white/10 bg-white/5 backdrop-blur-xl">
+
+  <Container>
+
+    <div class="flex flex-col gap-12 py-12 lg:flex-row lg:items-center lg:justify-between">
+
+      <!-- Partie gauche -->
+
+      <div class="max-w-md">
+
+        <h2 class="text-2xl font-bold tracking-wide">
+          Anime
+        </h2>
+
+        <p class="mt-4 leading-7 text-zinc-400">
+          Anime est une application Android permettant de regarder,
+          suivre et organiser facilement vos animes préférés dans une
+          interface moderne, rapide et entièrement gratuite.
+        </p>
+
+        <p class="mt-6 text-sm text-zinc-500">
+          Développé avec ❤️ par <span class="font-semibold text-zinc-300">Thomblydu54</span>
+        </p>
+
+      </div>
+
+      <!-- Partie droite -->
+
+      <div class="grid grid-cols-2 gap-10 text-sm">
+
+        <div>
+
+          <h3 class="mb-4 font-semibold text-white">
+            Projet
+          </h3>
+
+          <ul class="space-y-3">
+
+            <li>
+              <a
+                href="https://github.com/Thomblydu54/Anime"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-zinc-400 transition hover:text-violet-400">
+                GitHub
+              </a>
+            </li>
+
+            <li>
+              <a
+                href="https://github.com/Thomblydu54/Anime/releases/latest/download/Anime.apk"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-zinc-400 transition hover:text-violet-400">
+                Télécharger
+              </a>
+            </li>
+
+          </ul>
+
+        </div>
+
+        <div>
+
+          <h3 class="mb-4 font-semibold text-white">
+            Communauté
+          </h3>
+
+          <ul class="space-y-3">
+
+            <li>
+              <a
+                href="https://www.reddit.com/r/Anime_application/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-zinc-400 transition hover:text-violet-400">
+                Reddit
+              </a>
+            </li>
+
+            <li>
+              <a
+                href="https://github.com/Thomblydu54"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-zinc-400 transition hover:text-violet-400">
+                Profil GitHub
+              </a>
+            </li>
+
+          </ul>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="border-t border-white/10 py-6 text-center text-sm text-zinc-500">
+
+      © {new Date().getFullYear()} Anime • Tous droits réservés • Site officiel
+
+    </div>
+
+  </Container>
+
+</footer>

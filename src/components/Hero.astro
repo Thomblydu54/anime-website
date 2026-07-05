@@ -1,0 +1,116 @@
+---
+import Container from "./Container.astro";
+import Button from "./Button.astro";
+import PhoneMockup from "./PhoneMockup.astro";
+---
+
+<section class="relative min-h-screen overflow-hidden">
+
+  <!-- Halo principal -->
+  <div
+    class="absolute left-1/2 top-24 h-[700px] w-[700px] -translate-x-1/2 rounded-full bg-violet-600/20 blur-[170px]">
+  </div>
+
+  <!-- Halo secondaire -->
+  <div
+    class="absolute right-0 top-0 h-[350px] w-[350px] rounded-full bg-sky-500/10 blur-[120px]">
+  </div>
+
+  <Container>
+
+    <div class="grid min-h-screen items-center gap-16 pt-24 lg:grid-cols-2 lg:gap-20">
+
+      <!-- Texte -->
+      <div>
+
+        <span class="inline-flex rounded-full border border-violet-500/30 bg-violet-500/10 px-4 py-2 text-sm font-medium">
+          ✨ Développé par Thomblydu54
+        </span>
+
+        <h1 class="mt-8 text-5xl font-black leading-tight lg:text-7xl">
+          Votre univers
+          <br />
+          <span class="text-violet-400">
+            Anime
+          </span>
+          sur Android.
+        </h1>
+
+        <p class="mt-8 max-w-xl text-lg leading-8 text-zinc-400">
+          Regardez vos animes préférés, gérez vos listes, suivez les prochaines
+          sorties, téléchargez vos épisodes et profitez d'une interface moderne
+          pensée pour les passionnés d'animation japonaise.
+        </p>
+
+        <!-- Boutons -->
+        <div class="mt-12 flex flex-wrap gap-4">
+
+          <Button href="https://github.com/Thomblydu54/Anime/releases/latest/download/Anime.apk">
+            ⬇ Télécharger l'APK
+          </Button>
+
+          <Button
+            href="https://github.com/Thomblydu54/Anime"
+            variant="secondary">
+
+            Voir sur GitHub
+
+          </Button>
+
+        </div>
+
+        <!-- Badges -->
+        <div class="mt-10 flex flex-wrap gap-3">
+
+          <span class="rounded-full bg-white/5 px-5 py-2 text-sm">
+            📱 Android 8+
+          </span>
+
+          <span class="rounded-full bg-white/5 px-5 py-2 text-sm">
+            💜 Gratuit
+          </span>
+
+          <span class="rounded-full bg-white/5 px-5 py-2 text-sm">
+            ⚡ Rapide
+          </span>
+
+          <span class="rounded-full bg-white/5 px-5 py-2 text-sm">
+            🎬 Streaming
+          </span>
+
+        </div>
+
+        <!-- Statistiques -->
+        <div class="mt-12 grid grid-cols-3 gap-8">
+
+          <div>
+            <h3 class="text-4xl font-black">100%</h3>
+            <p class="text-zinc-500">Gratuit</p>
+          </div>
+
+          <div>
+            <h3 class="text-4xl font-black">8+</h3>
+            <p class="text-zinc-500">Android</p>
+          </div>
+
+          <div>
+            <h3 class="text-4xl font-black">∞</h3>
+            <p class="text-zinc-500">Animes</p>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Téléphone -->
+      <div class="flex justify-center">
+
+        <PhoneMockup />
+
+      </div>
+
+    </div>
+
+  </Container>
+
+</section>

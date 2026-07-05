@@ -1,0 +1,84 @@
+---
+import Container from "./Container.astro";
+---
+
+<header
+  class="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-black/40 backdrop-blur-2xl">
+
+  <Container>
+
+    <nav class="flex h-[72px] items-center justify-between">
+
+      <!-- Logo -->
+
+      <a
+        href="/"
+        class="group flex items-center gap-3">
+
+        <img
+          src="/logo.png"
+          alt="Anime"
+          class="h-11 w-11 rounded-xl ring-2 ring-violet-500/30 transition duration-300 group-hover:rotate-6 group-hover:scale-105 group-hover:ring-violet-400"
+        />
+
+        <div>
+
+          <h1 class="text-lg font-bold tracking-wide transition group-hover:text-violet-300">
+            Anime
+          </h1>
+
+          <p class="text-xs text-zinc-400">
+            Android App
+          </p>
+
+        </div>
+
+      </a>
+
+      <!-- Navigation Desktop -->
+
+      <div class="hidden items-center gap-8 text-sm lg:flex">
+
+        <a
+          href="#features"
+          class="relative transition hover:text-violet-400 after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-violet-400 after:transition-all hover:after:w-full">
+
+          Fonctionnalités
+
+        </a>
+
+        <a
+          href="#screenshots"
+          class="relative transition hover:text-violet-400 after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-violet-400 after:transition-all hover:after:w-full">
+
+          Captures
+
+        </a>
+
+        <a
+          href="#download"
+          class="relative transition hover:text-violet-400 after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-violet-400 after:transition-all hover:after:w-full">
+
+          Télécharger
+
+        </a>
+
+      </div>
+
+      <!-- Bouton GitHub -->
+
+      <a
+        href="https://github.com/Thomblydu54/Anime"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="rounded-xl border border-violet-500/30 bg-violet-500/10 px-5 py-2 text-sm font-medium transition-all duration-300 hover:-translate-y-0.5 hover:border-violet-400 hover:bg-violet-600 hover:shadow-lg hover:shadow-violet-600/30">
+
+        GitHub
+
+      </a>
+
+    </nav>
+
+  </Container>
+
+</header>

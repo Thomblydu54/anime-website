@@ -1,0 +1,72 @@
+:root {
+
+  /* ===========================
+     COULEURS
+  =========================== */
+
+  --background: #09090B;
+  --surface: #111118;
+  --card: #18181F;
+
+  --primary: #8B5CF6;
+  --primary-hover: #9F7AEA;
+  --primary-light: #C4B5FD;
+
+  --secondary: #3B82F6;
+  --secondary-hover: #60A5FA;
+
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+
+  --text: #FFFFFF;
+  --text-secondary: #D4D4D8;
+  --muted: #A1A1AA;
+
+  --border: rgba(255,255,255,.08);
+  --border-hover: rgba(255,255,255,.16);
+
+  /* ===========================
+     RAYONS
+  =========================== */
+
+  --radius-small: 14px;
+  --radius-medium: 22px;
+  --radius-large: 32px;
+  --radius-full: 9999px;
+
+  /* ===========================
+     OMBRES
+  =========================== */
+
+  --shadow-sm:
+    0 6px 18px rgba(0,0,0,.20);
+
+  --shadow:
+    0 20px 60px rgba(0,0,0,.45);
+
+  --shadow-lg:
+    0 40px 120px rgba(0,0,0,.60);
+
+  --shadow-primary:
+    0 0 60px rgba(139,92,246,.35);
+
+  /* ===========================
+     TRANSITIONS
+  =========================== */
+
+  --transition-fast: .2s ease;
+
+  --transition:
+    .3s cubic-bezier(.4,0,.2,1);
+
+  --transition-slow:
+    .5s cubic-bezier(.4,0,.2,1);
+
+  /* ===========================
+     LARGEURS
+  =========================== */
+
+  --container: 1280px;
+
+}

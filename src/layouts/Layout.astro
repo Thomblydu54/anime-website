@@ -1,0 +1,116 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const {
+  title = "Anime",
+  description = "Anime est une application Android moderne permettant de regarder, suivre et organiser facilement vos animes préférés.",
+  image = "/banner.png",
+} = Astro.props;
+
+const url = "https://thomblydu54.github.io/anime-website";
+---
+
+<!DOCTYPE html>
+
+<html lang="fr">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1" />
+
+  <title>{title}</title>
+
+  <meta
+    name="description"
+    content={description} />
+
+  <meta
+    name="theme-color"
+    content="#7C3AED" />
+
+  <meta
+    name="author"
+    content="Thomblydu54" />
+
+  <meta
+    name="robots"
+    content="index, follow" />
+
+  <link
+    rel="icon"
+    href="/favicon.ico" />
+
+  <link
+    rel="canonical"
+    href={url} />
+
+  <!-- Open Graph -->
+
+  <meta
+    property="og:type"
+    content="website" />
+
+  <meta
+    property="og:title"
+    content={title} />
+
+  <meta
+    property="og:description"
+    content={description} />
+
+  <meta
+    property="og:image"
+    content={`${url}${image}`} />
+
+  <meta
+    property="og:url"
+    content={url} />
+
+  <meta
+    property="og:locale"
+    content="fr_FR" />
+
+  <!-- Twitter -->
+
+  <meta
+    name="twitter:card"
+    content="summary_large_image" />
+
+  <meta
+    name="twitter:title"
+    content={title} />
+
+  <meta
+    name="twitter:description"
+    content={description} />
+
+  <meta
+    name="twitter:image"
+    content={`${url}${image}`} />
+
+</head>
+
+<body class="bg-black text-white antialiased">
+
+  <slot />
+
+<script type="module">
+
+import "../scripts/animations.ts";
+import "../scripts/sakura.ts";
+
+</script>
+
+</body>
+
+</html>

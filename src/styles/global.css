@@ -1,0 +1,313 @@
+@import "./variables.css";
+@import "tailwindcss";
+
+/* ===========================
+   RESET
+=========================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+
+  background:
+    radial-gradient(circle at top,
+      rgba(124, 58, 237, 0.08),
+      transparent 45%),
+    var(--background);
+
+  color: var(--text);
+
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition:
+    color .25s ease,
+    opacity .25s ease,
+    transform .25s ease;
+}
+
+button {
+  font: inherit;
+}
+
+/* ===========================
+   ACCESSIBILITÉ
+=========================== */
+
+:focus-visible {
+  outline: 2px solid #8b5cf6;
+  outline-offset: 4px;
+}
+
+::selection {
+  background: #7c3aed;
+  color: white;
+}
+
+/* ===========================
+   SCROLLBAR
+=========================== */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #09090b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #7c3aed;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8b5cf6;
+}
+
+/* ===========================
+   UTILITAIRES
+=========================== */
+
+.glass {
+  backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, .05);
+  border: 1px solid rgba(255, 255, 255, .08);
+}
+
+/* ===========================
+   ANIMATIONS D'APPARITION
+=========================== */
+
+.hidden-section {
+  opacity: 0;
+  transform: translateY(60px);
+  transition:
+    opacity .8s ease,
+    transform .8s ease;
+}
+
+.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===========================
+   PHONE MOCKUP
+=========================== */
+
+.phone {
+  position: relative;
+
+  width: 320px;
+  aspect-ratio: 9 / 19;
+
+  overflow: hidden;
+
+  border-radius: 42px;
+  border: 1px solid rgba(255,255,255,.08);
+
+  background: #000;
+
+  padding: 12px;
+
+  box-shadow:
+    0 40px 100px rgba(0,0,0,.60),
+    0 0 120px rgba(139,92,246,.25);
+
+  animation: floatPhone 6s ease-in-out infinite;
+}
+
+.phone-notch {
+  position: absolute;
+
+  top: 10px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: 120px;
+  height: 24px;
+
+  border-radius: 999px;
+
+  background: #000;
+
+  z-index: 20;
+}
+
+.screen {
+  position: absolute;
+
+  inset: 12px;
+
+  width: calc(100% - 24px);
+  height: calc(100% - 24px);
+
+  object-fit: cover;
+
+  border-radius: 34px;
+
+  opacity: 0;
+
+  transition: opacity .8s ease;
+}
+
+.screen.active {
+  opacity: 1;
+}
+
+/* ===========================
+   ANIMATIONS
+=========================== */
+
+@keyframes floatPhone {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-15px);
+  }
+
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media (max-width: 1024px) {
+
+  .phone {
+    width: 280px;
+  }
+
+}
+
+@media (max-width: 768px) {
+
+  .phone {
+    width: 240px;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+}
+
+/* ===========================
+   Sakura
+=========================== */
+
+.petal{
+
+position:fixed;
+
+top:-80px;
+
+pointer-events:none;
+
+z-index:2;
+
+will-change:transform;
+
+animation:fall linear forwards;
+
+}
+
+@keyframes fall{
+
+0%{
+
+transform:
+translate3d(0,-80px,0)
+rotate(0deg);
+
+opacity:0;
+
+}
+
+10%{
+
+opacity:1;
+
+}
+
+25%{
+
+transform:
+translate3d(calc(var(--drift) * .3),25vh,0)
+rotate(calc(var(--rotate) * .25));
+
+}
+
+50%{
+
+transform:
+translate3d(calc(var(--drift) * .7),50vh,0)
+rotate(calc(var(--rotate) * .5));
+
+}
+
+75%{
+
+transform:
+translate3d(calc(var(--drift)),75vh,0)
+rotate(calc(var(--rotate) * .75));
+
+}
+
+100%{
+
+transform:
+translate3d(calc(var(--drift) * .5),110vh,0)
+rotate(var(--rotate));
+
+opacity:0;
+
+}
+
+}

@@ -1,0 +1,61 @@
+---
+import Container from "./Container.astro";
+import Button from "./Button.astro";
+import SectionTitle from "./SectionTitle.astro";
+---
+
+<section id="download" class="py-32">
+  <Container>
+    <SectionTitle
+      title="Télécharger Anime"
+      subtitle="Téléchargez gratuitement la dernière version officielle de l'application."
+    />
+
+    <div
+      class="mx-auto mt-16 max-w-4xl rounded-[32px] border border-white/10 bg-white/5 p-10 backdrop-blur-xl">
+
+      <div class="text-center">
+
+        <h3 class="text-3xl font-bold">
+          Version actuelle
+        </h3>
+
+        <p class="mt-4 text-lg text-zinc-400">
+          Disponible directement depuis GitHub Releases.
+          Téléchargement rapide, gratuit et toujours à jour.
+        </p>
+
+        <div class="mt-8 flex flex-wrap justify-center gap-3">
+
+          <span class="rounded-full bg-violet-500/20 px-4 py-2 text-sm">
+            📱 Android 8+
+          </span>
+
+          <span class="rounded-full bg-violet-500/20 px-4 py-2 text-sm">
+            💜 Gratuit
+          </span>
+
+          <span class="rounded-full bg-violet-500/20 px-4 py-2 text-sm">
+            🚫 Sans publicité intrusive
+          </span>
+
+          <span class="rounded-full bg-violet-500/20 px-4 py-2 text-sm">
+            ⚡ Toujours à jour
+          </span>
+
+        </div>
+
+        <div class="mt-12 flex justify-center">
+
+          <Button href="https://github.com/Thomblydu54/Anime/releases/latest/download/Anime.apk">
+            ⬇ Télécharger l'APK
+          </Button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </Container>
+</section>
