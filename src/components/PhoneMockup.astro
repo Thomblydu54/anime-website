@@ -14,24 +14,43 @@ const screenshots = [
 ---
 
 <div class="phone-wrapper">
+
+  <!-- Halo lumineux -->
+  <div class="phone-halo"></div>
+
+  <!-- Téléphone -->
   <div id="phone" class="phone">
 
+    <!-- Captures -->
+    <div class="screens-container">
+
+      {
+        screenshots.map((image, index) => (
+          <img
+            src={image}
+            alt={`Capture d'écran ${index + 1} de l'application Anime`}
+            loading={index === 0 ? "eager" : "lazy"}
+            class:list={[
+              "screen",
+              index === 0 && "active"
+            ]}
+          />
+        ))
+      }
+
+    </div>
+
+    <!-- Encoche -->
     <div class="phone-notch"></div>
 
+    <!-- Reflet lumineux -->
     <div class="phone-glare"></div>
 
-    {
-      screenshots.map((image, index) => (
-        <img
-          src={image}
-          alt={`Capture ${index + 1}`}
-          loading={index === 0 ? "eager" : "lazy"}
-          class={`screen ${index === 0 ? "active" : ""}`}
-        />
-      ))
-    }
+    <!-- Reflet permanent très léger -->
+    <div class="phone-overlay"></div>
 
   </div>
+
 </div>
 
 <script>
@@ -43,15 +62,19 @@ const screenshots = [
 
     let current = 0;
 
-    setInterval(() => {
+    if (screens.length > 1) {
 
-      screens[current].classList.remove("active");
+      setInterval(() => {
 
-      current = (current + 1) % screens.length;
+        screens[current].classList.remove("active");
 
-      screens[current].classList.add("active");
+        current = (current + 1) % screens.length;
 
-    }, 3500);
+        screens[current].classList.add("active");
+
+      }, 3500);
+
+    }
 
   }
 </script>
@@ -60,85 +83,120 @@ const screenshots = [
 
 .phone-wrapper {
 
+  position: relative;
+
   display: flex;
+
   justify-content: center;
+
   align-items: center;
-  animation: float 5s ease-in-out infinite;
+
+  width: 100%;
+
+  min-height: 620px;
+
+  animation: phoneFloat 5s ease-in-out infinite;
+
+  pointer-events: none;
 
 }
+
+/* ===========================
+   HALO
+=========================== */
+
+.phone-halo {
+
+  position: absolute;
+
+  width: 460px;
+
+  height: 460px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(139, 92, 246, 0.22);
+
+  filter: blur(110px);
+
+  pointer-events: none;
+
+}
+
+/* ===========================
+   TÉLÉPHONE
+=========================== */
 
 .phone {
 
   position: relative;
+
+  z-index: 2;
+
   width: 380px;
+
+  max-width: 82vw;
+
   aspect-ratio: 9 / 19;
-  border-radius: 42px;
+
   overflow: hidden;
+
+  border-radius: 42px;
+
   background: #000;
+
   border: 10px solid #151515;
 
   box-shadow:
-    0 40px 80px rgba(0,0,0,.6),
-    0 0 80px rgba(139,92,246,.30);
+    0 40px 80px rgba(0, 0, 0, 0.60),
+    0 0 80px rgba(139, 92, 246, 0.30);
 
-  transform:
-    perspective(1200px)
-    rotateY(-8deg)
-    rotateX(3deg);
+  transform: none;
 
-}
+  isolation: isolate;
 
-.phone-notch {
-
-  position: absolute;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 120px;
-  height: 24px;
-  background: #111;
-  border-radius: 999px;
-  z-index: 20;
-
-}
-
-.phone-glare {
-
-  position: absolute;
-  top: 0;
-  left: -40%;
-  width: 40%;
-  height: 100%;
-
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255,255,255,.08),
-    transparent
-  );
-
-  transform: skewX(-20deg);
-
-  animation: shine 6s linear infinite;
-
-  z-index: 15;
   pointer-events: none;
+
+}
+
+/* ===========================
+   IMAGES
+=========================== */
+
+.screens-container {
+
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 1;
+
+  overflow: hidden;
 
 }
 
 .screen {
 
   position: absolute;
+
   inset: 0;
 
   width: 100%;
+
   height: 100%;
 
   object-fit: cover;
 
   opacity: 0;
 
-  transition: opacity .8s ease;
+  transform: scale(1.02);
+
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
+
+  pointer-events: none;
 
 }
 
@@ -146,35 +204,224 @@ const screenshots = [
 
   opacity: 1;
 
+  transform: scale(1);
+
 }
 
-@keyframes float {
+/* ===========================
+   ENCOCHE
+=========================== */
 
-  0%,100% {
+.phone-notch {
 
-    transform: translateY(0);
+  position: absolute;
 
+  top: 10px;
+
+  left: 50%;
+
+  width: 120px;
+
+  height: 24px;
+
+  transform: translateX(-50%);
+
+  border-radius: 999px;
+
+  background: #080808;
+
+  z-index: 30;
+
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.5);
+
+  pointer-events: none;
+
+}
+
+/* ===========================
+   REFLET LUMINEUX
+=========================== */
+
+.phone-glare {
+
+  position: absolute;
+
+  top: -20%;
+
+  left: -60%;
+
+  width: 45%;
+
+  height: 140%;
+
+  z-index: 20;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.02) 25%,
+      rgba(255, 255, 255, 0.22) 50%,
+      rgba(255, 255, 255, 0.02) 75%,
+      transparent 100%
+    );
+
+  transform:
+    skewX(-20deg);
+
+  animation:
+    phoneShine 5s ease-in-out infinite;
+
+}
+
+/* ===========================
+   REFLET LÉGER PERMANENT
+=========================== */
+
+.phone-overlay {
+
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 10;
+
+  pointer-events: none;
+
+  border-radius: 32px;
+
+  background:
+    linear-gradient(
+      120deg,
+      rgba(255, 255, 255, 0.08),
+      transparent 25%,
+      transparent 75%,
+      rgba(139, 92, 246, 0.05)
+    );
+
+}
+
+/* ===========================
+   FLOTTEMENT
+=========================== */
+
+@keyframes phoneFloat {
+
+  0%,
+  100% {
+    transform:
+      translateY(0);
   }
 
   50% {
+    transform:
+      translateY(-12px);
+  }
 
-    transform: translateY(-12px);
+}
+
+/* ===========================
+   ANIMATION REFLET
+=========================== */
+
+@keyframes phoneShine {
+
+  0% {
+    left: -60%;
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    left: 130%;
+    opacity: 0;
+  }
+
+}
+
+/* ===========================
+   MOBILE
+=========================== */
+
+@media (max-width: 640px) {
+
+  .phone-wrapper {
+
+    min-height: 520px;
+
+  }
+
+  .phone {
+
+    width: 300px;
+
+    max-width: 76vw;
+
+    border-width: 8px;
+
+    border-radius: 34px;
+
+  }
+
+  .phone-notch {
+
+    top: 8px;
+
+    width: 90px;
+
+    height: 18px;
+
+  }
+
+  .phone-overlay {
+
+    border-radius: 26px;
+
+  }
+
+  .phone-halo {
+
+    width: 320px;
+
+    height: 320px;
+
+    filter: blur(80px);
 
   }
 
 }
 
-@keyframes shine {
+/* ===========================
+   PETITS ÉCRANS
+=========================== */
 
-  0% {
+@media (max-width: 380px) {
 
-    left: -40%;
+  .phone-wrapper {
+
+    min-height: 460px;
 
   }
 
-  100% {
+  .phone {
 
-    left: 140%;
+    width: 260px;
+
+    max-width: 72vw;
 
   }
 

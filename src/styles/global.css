@@ -20,9 +20,11 @@ body {
   overflow-x: hidden;
 
   background:
-    radial-gradient(circle at top,
+    radial-gradient(
+      circle at top,
       rgba(124, 58, 237, 0.08),
-      transparent 45%),
+      transparent 45%
+    ),
     var(--background);
 
   color: var(--text);
@@ -49,10 +51,11 @@ img {
 a {
   color: inherit;
   text-decoration: none;
+
   transition:
-    color .25s ease,
-    opacity .25s ease,
-    transform .25s ease;
+    color 0.25s ease,
+    opacity 0.25s ease,
+    transform 0.25s ease;
 }
 
 button {
@@ -100,8 +103,8 @@ button {
 
 .glass {
   backdrop-filter: blur(20px);
-  background: rgba(255, 255, 255, .05);
-  border: 1px solid rgba(255, 255, 255, .08);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* ===========================
@@ -111,9 +114,10 @@ button {
 .hidden-section {
   opacity: 0;
   transform: translateY(60px);
+
   transition:
-    opacity .8s ease,
-    transform .8s ease;
+    opacity 0.8s ease,
+    transform 0.8s ease;
 }
 
 .show {
@@ -122,106 +126,251 @@ button {
 }
 
 /* ===========================
-   PHONE MOCKUP
+   SAKURA 🌸
 =========================== */
 
-.phone {
-  position: relative;
+.petal {
+  position: fixed;
 
-  width: 320px;
-  aspect-ratio: 9 / 19;
+  top: -80px;
+  left: 0;
 
-  overflow: hidden;
+  width: 20px;
+  height: 20px;
 
-  border-radius: 42px;
-  border: 1px solid rgba(255,255,255,.08);
+  z-index: 99999;
 
-  background: #000;
+  display: block;
 
-  padding: 12px;
+  pointer-events: none;
+  user-select: none;
 
-  box-shadow:
-    0 40px 100px rgba(0,0,0,.60),
-    0 0 120px rgba(139,92,246,.25);
+  object-fit: contain;
 
-  animation: floatPhone 6s ease-in-out infinite;
+  will-change:
+    transform,
+    opacity;
+
+  animation-name: sakuraFall;
+  animation-duration: 10s;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+
+  filter:
+    drop-shadow(
+      0 0 5px rgba(244, 114, 182, 0.45)
+    );
 }
 
-.phone-notch {
-  position: absolute;
+@keyframes sakuraFall {
 
-  top: 10px;
-  left: 50%;
+  0% {
+    transform:
+      translate3d(0, -80px, 0)
+      rotate(0deg);
 
-  transform: translateX(-50%);
+    opacity: 0;
+  }
 
-  width: 120px;
-  height: 24px;
+  10% {
+    opacity: 1;
+  }
 
-  border-radius: 999px;
-
-  background: #000;
-
-  z-index: 20;
-}
-
-.screen {
-  position: absolute;
-
-  inset: 12px;
-
-  width: calc(100% - 24px);
-  height: calc(100% - 24px);
-
-  object-fit: cover;
-
-  border-radius: 34px;
-
-  opacity: 0;
-
-  transition: opacity .8s ease;
-}
-
-.screen.active {
-  opacity: 1;
-}
-
-/* ===========================
-   ANIMATIONS
-=========================== */
-
-@keyframes floatPhone {
-
-  0%,
-  100% {
-    transform: translateY(0);
+  25% {
+    transform:
+      translate3d(
+        calc(var(--drift) * 0.3),
+        25vh,
+        0
+      )
+      rotate(
+        calc(var(--rotate) * 0.25)
+      );
   }
 
   50% {
-    transform: translateY(-15px);
+    transform:
+      translate3d(
+        calc(var(--drift) * 0.7),
+        50vh,
+        0
+      )
+      rotate(
+        calc(var(--rotate) * 0.5)
+      );
   }
 
+  75% {
+    transform:
+      translate3d(
+        var(--drift),
+        75vh,
+        0
+      )
+      rotate(
+        calc(var(--rotate) * 0.75)
+      );
+  }
+
+  100% {
+    transform:
+      translate3d(
+        calc(var(--drift) * 0.5),
+        110vh,
+        0
+      )
+      rotate(var(--rotate));
+
+    opacity: 0;
+  }
+}
+
+/* ===========================
+   STATISTIQUES
+=========================== */
+
+.stats-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(
+      auto-fit,
+      minmax(220px, 1fr)
+    );
+
+  gap: 2rem;
+}
+
+.stat-card {
+  position: relative;
+
+  overflow: hidden;
+
+  padding: 2rem;
+
+  border-radius: 28px;
+
+  background:
+    rgba(255, 255, 255, 0.05);
+
+  border:
+    1px solid rgba(255, 255, 255, 0.08);
+
+  backdrop-filter: blur(20px);
+
+  transition:
+    transform 0.4s ease,
+    border-color 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-8px);
+
+  border-color: #8b5cf6;
+
+  box-shadow:
+    0 20px 60px
+    rgba(139, 92, 246, 0.25);
+}
+
+.stat-icon {
+  font-size: 3rem;
+
+  transition:
+    transform 0.4s ease;
+}
+
+.stat-card:hover .stat-icon {
+  transform:
+    scale(1.15)
+    rotate(-5deg);
+}
+
+.stat-value {
+  margin-top: 20px;
+
+  font-size: 3rem;
+
+  font-weight: 900;
+}
+
+.stat-label {
+  margin-top: 10px;
+
+  color: #a1a1aa;
+}
+
+.stat-glow {
+  position: absolute;
+
+  inset: -100%;
+
+  background:
+    linear-gradient(
+      45deg,
+      transparent,
+      rgba(139, 92, 246, 0.25),
+      transparent
+    );
+
+  animation:
+    cardGlow 6s linear infinite;
+
+  pointer-events: none;
+}
+
+@keyframes cardGlow {
+
+  0% {
+    transform:
+      translateX(-100%)
+      rotate(20deg);
+  }
+
+  100% {
+    transform:
+      translateX(250%)
+      rotate(20deg);
+  }
 }
 
 /* ===========================
    RESPONSIVE
 =========================== */
 
-@media (max-width: 1024px) {
-
-  .phone {
-    width: 280px;
-  }
-
-}
-
 @media (max-width: 768px) {
 
-  .phone {
-    width: 240px;
+  .stats-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 1rem;
   }
 
+  .stat-card {
+    padding: 1.5rem;
+  }
+
+  .stat-value {
+    font-size: 2.25rem;
+  }
+
+  .stat-icon {
+    font-size: 2.5rem;
+  }
 }
+
+@media (max-width: 480px) {
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===========================
+   ACCESSIBILITÉ ANIMATIONS
+=========================== */
 
 @media (prefers-reduced-motion: reduce) {
 
@@ -229,193 +378,13 @@ button {
     scroll-behavior: auto;
   }
 
-  *,
-  *::before,
-  *::after {
-    animation: none !important;
-    transition: none !important;
+  .hidden-section {
+    opacity: 1;
+    transform: none;
   }
 
-}
-
-/* ===========================
-   Sakura
-=========================== */
-
-.petal{
-
-position:fixed;
-
-top:-80px;
-
-pointer-events:none;
-
-z-index:2;
-
-will-change:transform;
-
-animation:fall linear forwards;
-
-}
-
-@keyframes fall{
-
-0%{
-
-transform:
-translate3d(0,-80px,0)
-rotate(0deg);
-
-opacity:0;
-
-}
-
-10%{
-
-opacity:1;
-
-}
-
-25%{
-
-transform:
-translate3d(calc(var(--drift) * .3),25vh,0)
-rotate(calc(var(--rotate) * .25));
-
-}
-
-50%{
-
-transform:
-translate3d(calc(var(--drift) * .7),50vh,0)
-rotate(calc(var(--rotate) * .5));
-
-}
-
-75%{
-
-transform:
-translate3d(calc(var(--drift)),75vh,0)
-rotate(calc(var(--rotate) * .75));
-
-}
-
-100%{
-
-transform:
-translate3d(calc(var(--drift) * .5),110vh,0)
-rotate(var(--rotate));
-
-opacity:0;
-
-}
-
-}
-
-.stats-grid{
-
-display:grid;
-
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-
-gap:2rem;
-
-}
-
-.stat-card{
-
-position:relative;
-
-overflow:hidden;
-
-padding:2rem;
-
-border-radius:28px;
-
-background:rgba(255,255,255,.05);
-
-border:1px solid rgba(255,255,255,.08);
-
-backdrop-filter:blur(20px);
-
-transition:.4s;
-
-}
-
-.stat-card:hover{
-
-transform:translateY(-8px);
-
-border-color:#8B5CF6;
-
-box-shadow:
-0 20px 60px rgba(139,92,246,.25);
-
-}
-
-.stat-icon{
-
-font-size:3rem;
-
-transition:.4s;
-
-}
-
-.stat-card:hover .stat-icon{
-
-transform:scale(1.15) rotate(-5deg);
-
-}
-
-.stat-value{
-
-margin-top:20px;
-
-font-size:3rem;
-
-font-weight:900;
-
-}
-
-.stat-label{
-
-margin-top:10px;
-
-color:#A1A1AA;
-
-}
-
-.stat-glow{
-
-position:absolute;
-
-inset:-100%;
-
-background:linear-gradient(
-45deg,
-transparent,
-rgba(139,92,246,.25),
-transparent
-);
-
-animation:cardGlow 6s linear infinite;
-
-pointer-events:none;
-
-}
-
-@keyframes cardGlow{
-
-0%{
-
-transform:translateX(-100%) rotate(20deg);
-
-}
-
-100%{
-
-transform:translateX(250%) rotate(20deg);
-
-}
-
+  .show {
+    opacity: 1;
+    transform: none;
+  }
 }

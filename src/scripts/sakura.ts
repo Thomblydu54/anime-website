@@ -1,13 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
-
-  const BASE_URL =
-    document.querySelector("base")?.getAttribute("href") ||
-    import.meta.env.BASE_URL;
+  const BASE_URL = import.meta.env.BASE_URL;
 
   const MAX_PETALS = 40;
 
   function createPetal() {
-
     const petal = document.createElement("img");
 
     petal.src = `${BASE_URL}petal.svg`;
@@ -21,8 +17,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     petal.style.left = `${Math.random() * 100}vw`;
 
+    petal.style.top = `-${size}px`;
+
     petal.style.animationDuration =
       `${8 + Math.random() * 6}s`;
+
+    petal.style.animationDelay = "0s";
 
     petal.style.opacity =
       `${0.3 + Math.random() * 0.7}`;
@@ -40,21 +40,19 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.appendChild(petal);
 
     petal.addEventListener("animationend", () => {
-
       petal.remove();
-
     });
-
   }
 
-  setInterval(() => {
-
+  // Création progressive des pétales
+  const petalInterval = setInterval(() => {
     if (document.querySelectorAll(".petal").length < MAX_PETALS) {
-
       createPetal();
-
     }
+  }, 300);
 
-  }, 250);
-
+  // Nettoyage si nécessaire
+  window.addEventListener("beforeunload", () => {
+    clearInterval(petalInterval);
+  });
 });
