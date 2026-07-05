@@ -8,7 +8,7 @@ export default defineConfig({
 
   site: "https://anime_application",
 
-  base: isProd ? "/anime-website/" : "/",
+  base: isProd ? "/anime_application/" : "/",
 
   vite: {
     plugins: [tailwindcss()],
