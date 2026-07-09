@@ -54,8 +54,8 @@ const url = "https://thomblydu54.github.io/anime-website";
     content="index, follow" />
 
   <link
-    rel="icon"
-    href="/favicon.ico" />
+  rel="icon"
+  href={`${import.meta.env.BASE_URL}favicon.ico`} />
 
   <link
     rel="canonical"
@@ -116,6 +116,11 @@ const url = "https://thomblydu54.github.io/anime-website";
 import "../scripts/animations.ts";
 import "../scripts/sakura.ts";
 
+</script>
+
+<script
+  src={`${import.meta.env.BASE_URL}github.js`}
+  defer>
 </script>
 
 </body>

@@ -1,70 +1,74 @@
 ---
 import Container from "./Container.astro";
 import SectionTitle from "./SectionTitle.astro";
-import { getLatestRelease, getRepository } from "../lib/github";
-
-const release = await getLatestRelease();
-const repo = await getRepository();
-
-const downloads = release.assets[0]?.download_count ?? 0;
-
-const stats = [
-  {
-    icon: "⭐",
-    value: repo.stargazers_count,
-    label: "Étoiles GitHub",
-  },
-  {
-    icon: "🍴",
-    value: repo.forks_count,
-    label: "Forks",
-  },
-  {
-    icon: "📦",
-    value: release.tag_name,
-    label: "Dernière version",
-  },
-  {
-    icon: "⬇️",
-    value: downloads,
-    label: "Téléchargements",
-  },
-];
 ---
 
-<section class="py-32">
+<section class="py-24">
 
   <Container>
 
     <SectionTitle
       title="Le projet en chiffres"
-      subtitle="Toutes les statistiques sont récupérées automatiquement depuis GitHub."
+      subtitle="Toutes les statistiques sont synchronisées automatiquement avec GitHub."
     />
 
-    <div class="mt-16 grid gap-8 sm:grid-cols-2 xl:grid-cols-4">
+    <div class="stats-grid">
 
-      {
-        stats.map((stat) => (
+      <div class="stat-card">
 
-          <article
-            class="group rounded-3xl border border-white/10 bg-white/5 p-8 text-center backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:border-violet-500/40 hover:bg-white/10 hover:shadow-[0_20px_60px_rgba(139,92,246,.20)]">
+        <div class="stat-glow"></div>
 
-            <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-violet-500/10 text-3xl transition-transform duration-300 group-hover:scale-110">
-              {stat.icon}
-            </div>
+        <div class="stat-icon">⭐</div>
 
-            <h3 class="mt-6 text-4xl font-black tracking-tight">
-              {stat.value}
-            </h3>
+        <h3 id="stars" class="stat-value">0</h3>
 
-            <p class="mt-3 text-zinc-400">
-              {stat.label}
-            </p>
+        <p class="stat-label">
+          Étoiles GitHub
+        </p>
 
-          </article>
+      </div>
 
-        ))
-      }
+      <div class="stat-card">
+
+        <div class="stat-glow"></div>
+
+        <div class="stat-icon">🍴</div>
+
+        <h3 id="forks" class="stat-value">0</h3>
+
+        <p class="stat-label">
+          Forks
+        </p>
+
+      </div>
+
+      <div class="stat-card">
+
+        <div class="stat-glow"></div>
+
+        <div class="stat-icon">👀</div>
+
+        <h3 id="watchers" class="stat-value">0</h3>
+
+        <p class="stat-label">
+          Watchers
+        </p>
+
+      </div>
+
+      <div class="stat-card">
+
+        <div class="stat-glow"></div>
+
+        <div class="stat-icon">⬇️</div>
+
+        <h3 id="downloads" class="stat-value">0</h3>
+
+        <p class="stat-label">
+          Téléchargements
+        </p>
+
+      </div>
 
     </div>
 
