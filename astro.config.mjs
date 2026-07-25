@@ -5,7 +5,7 @@ import tailwindcss from "@tailwindcss/vite";
 const isProd = process.env.NODE_ENV === "production";
 
 export default defineConfig({
-  site: "https://thomblydu54.github.io",
+  site: "https://thomblydu54.github.io/anime-website/",
   base: "/anime-website/",
 
   vite: {
