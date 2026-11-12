@@ -1,0 +1,22 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.example.anime",
+      "sha256_cert_fingerprints": [
+        "B8:0F:B8:3B:07:C6:11:E0:D5:80:6F:B4:C2:AB:32:0C:20:2B:99:39:58:31:DC:F1:EE:18:DC:43:39:1B:4F:BB"
+      ]
+    }
+  },
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.thombly.anime",
+      "sha256_cert_fingerprints": [
+        "B8:0F:B8:3B:07:C6:11:E0:D5:80:6F:B4:C2:AB:32:0C:20:2B:99:39:58:31:DC:F1:EE:18:DC:43:39:1B:4F:BB"
+      ]
+    }
+  }
+]

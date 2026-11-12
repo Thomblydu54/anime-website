@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Anime - Redirection...</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <script src="../assets/share.js" defer></script>
+</head>
+<body>
+  <main class="page-container">
+    <div class="card" id="share-card" role="region" aria-label="Partage Anime">
+      <div class="card-header">
+        <div class="logo-badge" aria-hidden="true">A</div>
+        <div class="app-info">
+          <h1 class="app-title" id="text-app-name">Anime</h1>
+          <p class="app-subtitle" id="text-app-subtitle">Application Android</p>
+        </div>
+      </div>
+
+      <!-- État Chargement / Redirection en cours -->
+      <div id="state-loading" class="state-block">
+        <div class="spinner" role="status" aria-label="Chargement..."></div>
+        <h2 class="status-title" id="text-loading-title">Redirection vers votre anime...</h2>
+        <p class="status-subtitle" id="text-loading-subtitle">Ouverture dans quelques instants...</p>
+
+        <div class="btn-group">
+          <a id="btn-open-app" class="btn btn-primary" href="https://play.google.com/store/apps/details?id=com.thombly.anime" target="_blank" rel="noopener noreferrer">
+            <svg class="btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M3.609 1.814L13.792 12 3.61 22.186a1.99 1.99 0 0 1-.61-1.42V3.234c0-.547.222-1.043.609-1.42zm11.241 11.244l2.251 2.251-12.022 6.84 9.771-9.091zm2.251-2.251L14.85 8.556 5.079 1.86l12.022 6.84 2.25 2.251zM18.157 12l2.846-1.62c.621-.353.997-.98.997-1.696s-.376-1.343-.997-1.696L18.157 12z"/>
+            </svg>
+            <span id="text-btn-open-app">Ouvrir dans l'application</span>
+          </a>
+          <button type="button" id="btn-continue" class="btn btn-secondary">
+            <span id="text-btn-continue">Continuer sur le site</span>
+            <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+
+        <div id="notice-test-mode" class="notice-badge hidden" role="status">
+          <span id="text-test-mode">Mode test (?stay=1) : la redirection automatique est désactivée.</span>
+        </div>
+      </div>
+
+      <!-- État Erreur (lien invalide ou expiré) -->
+      <div id="state-error" class="state-block hidden" role="alert">
+        <div class="error-icon" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+        </div>
+        <h2 class="status-title" id="text-error-title">Ce lien n'est pas valide ou a expiré</h2>
+        <p class="status-subtitle" id="text-error-message">Le lien de partage que vous avez suivi est incorrect, corrompu ou a expiré. Téléchargez l'application Anime pour accéder aux fiches et au catalogue complet.</p>
+
+        <div class="btn-group">
+          <a id="btn-get-app" class="btn btn-primary" href="https://play.google.com/store/apps/details?id=com.thombly.anime" target="_blank" rel="noopener noreferrer">
+            <svg class="btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M3.609 1.814L13.792 12 3.61 22.186a1.99 1.99 0 0 1-.61-1.42V3.234c0-.547.222-1.043.609-1.42zm11.241 11.244l2.251 2.251-12.022 6.84 9.771-9.091zm2.251-2.251L14.85 8.556 5.079 1.86l12.022 6.84 2.25 2.251zM18.157 12l2.846-1.62c.621-.353.997-.98.997-1.696s-.376-1.343-.997-1.696L18.157 12z"/>
+            </svg>
+            <span id="text-btn-get-app">Télécharger l'application</span>
+          </a>
+          <a class="btn btn-secondary" href="../" id="btn-back-home">
+            <span id="text-btn-home">Retour à l'accueil</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Fallback sans JavaScript -->
+      <noscript>
+        <div class="noscript-notice">
+          <p>JavaScript est nécessaire pour décoder ce lien de partage et vous rediriger.</p>
+          <a class="btn btn-primary" href="https://play.google.com/store/apps/details?id=com.thombly.anime" target="_blank" rel="noopener noreferrer">
+            Télécharger l'application Anime
+          </a>
+        </div>
+      </noscript>
+    </div>
+  </main>
+</body>
+</html>
