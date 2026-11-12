@@ -95,19 +95,16 @@ Elle s'adapte dynamiquement à l'origine active (`location.origin + '/a/'`).
 Le fichier `.well-known/assetlinks.json` associe le domaine à l'application Android.
 
 L'entrée correspondant au package `com.thombly.anime` contient **deux** empreintes dans son tableau `sha256_cert_fingerprints` :
-1. L'empreinte de développement/debug déjà enregistrée :
+1. L'empreinte de développement/debug locale :
    `B8:0F:B8:3B:07:C6:11:E0:D5:80:6F:B4:C2:AB:32:0C:20:2B:99:39:58:31:DC:F1:EE:18:DC:43:39:1B:4F:BB`
-2. Le marqueur réservé pour Play App Signing :
-   `__PLAY_APP_SIGNING_SHA256__` (situé exactement à la **ligne 19** de `.well-known/assetlinks.json`).
+2. L'empreinte officielle de production Google Play App Signing :
+   `3C:B4:C8:0C:A6:52:7E:47:61:2B:05:8A:0A:78:D5:F5:11:99:66:D1:45:4C:FD:A0:B3:BF:7D:12:2A:D6:38:B2`
 
 ### Emplacement de la valeur dans la Google Play Console
-Pour récupérer votre empreinte SHA-256 de production :
-1. Connectez-vous à la **Google Play Console**.
-2. Sélectionnez l'application **Anime**.
-3. Allez dans : **Test et publication** → **Intégrité de l'application**.
-4. Sous la section **Certificat de clé de signature d'application**, copiez la valeur du champ **Empreinte de certificat SHA-256**.
-5. Ouvrez le fichier `.well-known/assetlinks.json` et remplacez le marqueur `__PLAY_APP_SIGNING_SHA256__` (ligne 19) par votre empreinte réelle au format hexadécimal séparé par des deux-points (ex. `AA:BB:CC:...`).
-6. Conservez la virgule entre les deux chaînes et veillez à ne laisser aucun commentaire afin de préserver la validité du JSON.
+Cette empreinte de signature a été récupérée depuis :
+**Google Play Console** → Sélection de l'application **Anime** → **Test et publication** → **Intégrité de l'application** → section **Certificat de clé de signature d'application** → champ **Empreinte de certificat SHA-256**.
+
+Le fichier JSON est complet, strictement valide et prêt pour la vérification automatique des Android App Links en production.
 
 ---
 
@@ -173,5 +170,5 @@ Remplacez `<DOMAINE>` par le domaine de test (ex. `http://localhost:8080` en loc
 | **5** | **Protocole malveillant (XSS `javascript:`)** | `<DOMAINE>/a/amF2YXNjcmlwdDphbGVydCgxKQ` *(décode vers `javascript:alert(1)`)* | Carte d'erreur sobre. Aucune exécution de script, aucune redirection. |
 | **6** | **Chemin `/a/` sans code** | `<DOMAINE>/a/` | Carte d'erreur sobre affichée directement, invitant à télécharger l'application. |
 | **7** | **Mise en page mobile 320 px** | N'importe quelle page sous viewport 320 px | La carte est parfaitement centrée, les boutons s'adaptent, pas de débordement horizontal ni de coupure de texte. |
-| **8** | **Digital Asset Links (App Links)** | `<DOMAINE>/.well-known/assetlinks.json` | Réponse HTTP `200` avec le fichier JSON complet contenant les deux entrées et les empreintes (y compris `__PLAY_APP_SIGNING_SHA256__`). |
+| **8** | **Digital Asset Links (App Links)** | `<DOMAINE>/.well-known/assetlinks.json` | Réponse HTTP `200` avec le fichier JSON complet contenant les deux entrées et les empreintes SHA-256 (y compris celle de Play App Signing). |
 | **9** | **Forme de secours query string** | `<DOMAINE>/a/?c=aHR0cHM6Ly9mcmFuaW1lLmZyL2FuaW1lL2JsZWFjaA&stay=1` | Décode correctement vers la fiche Bleach sur franime.fr en mode test. |
