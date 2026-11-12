@@ -10,9 +10,9 @@ Le site est conçu pour être publié directement sur **GitHub Pages**, sans auc
 
 1. [Fonctionnement technique](#1-fonctionnement-technique)
 2. [Déploiement sur GitHub Pages](#2-déploiement-sur-github-pages)
-3. [Configuration du domaine et CNAME](#3-configuration-du-domaine-et-cname)
-4. [Ajout de l'empreinte Play App Signing](#4-ajout-de-lempreinte-play-app-signing)
-5. [Sécurité et Anti Open-Redirect](#5-sécurité-et-anti-open-redirect)
+3. [Configuration du domaine et CNAME : Les 3 cas](#3-configuration-du-domaine-et-cname--les-3-cas)
+4. [Empreinte Play App Signing (.well-known/assetlinks.json)](#4-empreinte-play-app-signing-well-knownassetlinksjson)
+5. [Sécurité, Zéro Ressource Tierce et Zéro Stockage](#5-sécurité-zéro-ressource-tierce-et-zéro-stockage)
 6. [Structure du dépôt](#6-structure-du-dépôt)
 7. [Checklist et Procédure de Test](#7-checklist-et-procédure-de-test)
 
@@ -42,114 +42,102 @@ Le `<code>` est encodé en **Base64URL sans padding** (RFC 4648 §5, alphabet `A
 
 Pour activer l'hébergement sur GitHub Pages :
 
-1. Rendez-vous sur votre dépôt GitHub : `https://github.com/<PSEUDO>/<NOM_DU_REPO>`.
+1. Rendez-vous sur le dépôt GitHub.
 2. Cliquez sur l'onglet **Settings** (Paramètres).
 3. Dans la barre latérale gauche, cliquez sur **Pages**.
 4. Dans la section **Build and deployment** :
    - **Source** : sélectionnez `Deploy from a branch`.
-   - **Branch** : sélectionnez la branche `main` (ou la branche par défaut), dossier `/ (root)`.
+   - **Branch** : sélectionnez la branche `main` (ou la branche active), dossier `/ (root)`.
    - Cliquez sur **Save**.
 5. Cochez impérativement la case **Enforce HTTPS** une fois le certificat provisionné.
 6. Le fichier vide `.nojekyll` présent à la racine garantit que le dossier `.well-known/` et son fichier `assetlinks.json` ne sont pas ignorés par le moteur de publication.
 
 ---
 
-## 3. Configuration du domaine et CNAME
+## 3. Configuration du domaine et CNAME : Les 3 cas
 
-### Recommandation importante pour les App Links
-Pour que la vérification automatique des Android App Links réussisse, le fichier `assetlinks.json` **doit impérativement être accessible à la racine absolue du domaine** :
-`https://<DOMAINE>/.well-known/assetlinks.json`
+Un fichier `CNAME` ne sert **que** pour un domaine personnalisé acheté. Il ne règle **pas** le cas d'un site servi sous `/<repo>/`. Voici les trois cas de figure et leur impact sur Android App Links :
 
-Deux configurations sont possibles :
+### a. Dépôt nommé `<PSEUDO>.github.io`
+- Le site est servi à la racine absolue : `https://<PSEUDO>.github.io/`.
+- Le fichier `/.well-known/assetlinks.json` est immédiatement accessible à la racine.
+- La vérification des Android App Links réussit sans configuration supplémentaire.
+- **Aucun fichier CNAME n'est requis.**
 
-#### Option A : Dépôt utilisateur `<PSEUDO>.github.io` (Recommandé)
-En nommant le dépôt GitHub exactement `<PSEUDO>.github.io` (ex. `thomblydu54.github.io`), le site est servi directement à la racine `https://<PSEUDO>.github.io/`.
-Les liens de partage sont alors `https://<PSEUDO>.github.io/a/<code>` et `/.well-known/assetlinks.json` est immédiatement disponible.
+### b. Dépôt avec un autre nom (ex. `anime-website`)
+- Le site est servi sous le sous-dossier : `https://<PSEUDO>.github.io/<repo>/`.
+- Les liens de partage deviennent `https://<PSEUDO>.github.io/<repo>/a/<code>`.
+- **La vérification App Links est impossible** : le système Android interroge exclusivement `https://<PSEUDO>.github.io/.well-known/assetlinks.json` (à la racine de l'hôte), qui n'est pas servi par ce sous-dossier.
+- En conséquence, Android affiche le sélecteur app/navigateur au lieu d'ouvrir directement l'application.
+- **Important** : Ajouter un `CNAME` dans ce dépôt ne résout pas ce problème si aucun domaine personnalisé n'a été acheté.
 
-#### Option B : Domaine personnalisé avec CNAME (Recommandé si le dépôt s'appelle `anime-website`)
-Si le dépôt porte un nom générique comme `anime-website`, GitHub Pages le servira par défaut sous `https://<PSEUDO>.github.io/anime-website/`. Dans cette configuration, les App Links ne peuvent pas valider le fichier `assetlinks.json` à la racine de `github.io`.
+### c. Domaine personnalisé (ex. `anime.thombly.com`)
+- Nécessite la possession d'un nom de domaine propre.
+- Créez un fichier `CNAME` à la racine du dépôt contenant uniquement le domaine (ex. `anime.thombly.com`).
+- Configurez les enregistrements DNS chez le registraire (CNAME pointant vers `<PSEUDO>.github.io` ou enregistrements A vers les IP GitHub Pages).
+- Activez **Enforce HTTPS** dans GitHub Pages.
+- Le fichier `assetlinks.json` est alors bien accessible à la racine du domaine personnalisé (`https://anime.thombly.com/.well-known/assetlinks.json`), rendant la vérification App Links opérationnelle.
 
-Pour utiliser un nom de domaine personnalisé (ex. `anime.thombly.com` ou `mon-anime-site.fr`) :
-1. Créez un fichier `CNAME` à la racine du dépôt contenant uniquement votre domaine personnalisé (ex. `anime.thombly.com`).
-2. Chez votre registraire DNS, ajoutez un enregistrement :
-   - Pour un sous-domaine : type `CNAME` pointant vers `<PSEUDO>.github.io`.
-   - Pour un domaine racine (apex) : type `A` pointant vers les IP GitHub Pages (185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153).
-3. Dans **Settings > Pages > Custom domain**, renseignez votre domaine et activez **Enforce HTTPS**.
-
-### Où modifier la constante de domaine dans le code ?
-La constante est centralisée à la toute première ligne de `assets/share.js` :
+### Constante de préfixe dans le code
+La constante est centralisée en tête de `assets/share.js` :
 
 ```javascript
 // assets/share.js (ligne 14)
 const LINK_PREFIX = location.origin + '/a/';
 ```
 
-Par défaut, elle utilise dynamiquement l'origine du site actuel (`location.origin + '/a/'`), ce qui fonctionne sans modification aussi bien sur domaine personnalisé que sur `<PSEUDO>.github.io`.
+Elle s'adapte dynamiquement à l'origine active (`location.origin + '/a/'`).
 
 ---
 
-## 4. Ajout de l'empreinte Play App Signing
+## 4. Empreinte Play App Signing (.well-known/assetlinks.json)
 
-Le fichier `.well-known/assetlinks.json` associe votre domaine à l'application Android. Il contient déjà l'empreinte de développement SHA-256.
+Le fichier `.well-known/assetlinks.json` associe le domaine à l'application Android.
 
-Le format JSON ne permettant pas d'insérer de commentaires, voici comment ajouter l'empreinte **Google Play App Signing** de production :
+L'entrée correspondant au package `com.thombly.anime` contient **deux** empreintes dans son tableau `sha256_cert_fingerprints` :
+1. L'empreinte de développement/debug déjà enregistrée :
+   `B8:0F:B8:3B:07:C6:11:E0:D5:80:6F:B4:C2:AB:32:0C:20:2B:99:39:58:31:DC:F1:EE:18:DC:43:39:1B:4F:BB`
+2. Le marqueur réservé pour Play App Signing :
+   `__PLAY_APP_SIGNING_SHA256__` (situé exactement à la **ligne 19** de `.well-known/assetlinks.json`).
 
-1. Ouvrez la [Google Play Console](https://play.google.com/console).
-2. Sélectionnez votre application **Anime**.
-3. Allez dans le menu : **Configuration** (Setup) > **Intégrité de l'application** (App Integrity).
-4. Sous l'onglet **Certificat de clé de signature d'application** (App signing key certificate), copiez l'**Empreinte de certificat SHA-256**.
-5. Ouvrez le fichier `.well-known/assetlinks.json` de ce dépôt.
-6. Dans l'objet correspondant au package `com.thombly.anime`, **ajoutez** votre empreinte dans le tableau `sha256_cert_fingerprints` (ne supprimez jamais l'empreinte existante, ajoutez une virgule et la nouvelle empreinte) :
-
-```json
-[
-  {
-    "relation": ["delegate_permission/common.handle_all_urls"],
-    "target": {
-      "namespace": "android_app",
-      "package_name": "com.example.anime",
-      "sha256_cert_fingerprints": [
-        "B8:0F:B8:3B:07:C6:11:E0:D5:80:6F:B4:C2:AB:32:0C:20:2B:99:39:58:31:DC:F1:EE:18:DC:43:39:1B:4F:BB"
-      ]
-    }
-  },
-  {
-    "relation": ["delegate_permission/common.handle_all_urls"],
-    "target": {
-      "namespace": "android_app",
-      "package_name": "com.thombly.anime",
-      "sha256_cert_fingerprints": [
-        "B8:0F:B8:3B:07:C6:11:E0:D5:80:6F:B4:C2:AB:32:0C:20:2B:99:39:58:31:DC:F1:EE:18:DC:43:39:1B:4F:BB",
-        "COLLER_ICI_VOTRE_NOUVELLE_EMPREINTE_SHA256_PLAY_APP_SIGNING"
-      ]
-    }
-  }
-]
-```
-
-7. Enregistrez et committez le fichier.
+### Emplacement de la valeur dans la Google Play Console
+Pour récupérer votre empreinte SHA-256 de production :
+1. Connectez-vous à la **Google Play Console**.
+2. Sélectionnez l'application **Anime**.
+3. Allez dans : **Test et publication** → **Intégrité de l'application**.
+4. Sous la section **Certificat de clé de signature d'application**, copiez la valeur du champ **Empreinte de certificat SHA-256**.
+5. Ouvrez le fichier `.well-known/assetlinks.json` et remplacez le marqueur `__PLAY_APP_SIGNING_SHA256__` (ligne 19) par votre empreinte réelle au format hexadécimal séparé par des deux-points (ex. `AA:BB:CC:...`).
+6. Conservez la virgule entre les deux chaînes et veillez à ne laisser aucun commentaire afin de préserver la validité du JSON.
 
 ---
 
-## 5. Sécurité et Anti Open-Redirect
+## 5. Sécurité, Zéro Ressource Tierce et Zéro Stockage
 
-Le site implémente plusieurs mécanismes de sécurité stricts :
+Le site applique une politique stricte d'isolation et de respect de la vie privée :
 
-1. **Anti Open-Redirect obligatoire** :
-   L'URL décodée est analysée avec le constructeur natif `new URL()`. Elle doit impérativement débuter par `https://` et son hôte (`hostname`) doit appartenir strictement à la liste blanche :
-   - `anime-sama.to`, `anime-sama.fr`, `anime-sama.net`, `anime-sama.com` (et sous-domaines `www.`)
-   - `franime.fr` (et `www.franime.fr`)
-   - `nakenime.tv` (et `www.nakenime.tv`)
-   Tout autre domaine (ex. `evil.example`, domaine leurre `anime-sama.to.evil.com`) est immédiatement rejeté.
-2. **Confidentialité totale du lien** :
-   L'URL décodée n'est **jamais** écrite dans le DOM visible, ni dans le titre de la page, ni dans un attribut `data-*`, ni enregistrée dans la console du navigateur (`console.log`). Elle demeure uniquement en mémoire vive JS dans une fermeture locale.
+1. **Zéro ressource tierce** :
+   - Aucun appel vers des polices distantes (Google Fonts), des CDN (jsDelivr, unpkg, cdnjs) ou des services tiers (Cloudflare).
+   - Aucune balise de préconnexion distante ni script externe chargé depuis le web.
+   - Aucune image ou icône externe : tous les pictogrammes SVG sont intégrés inline dans le HTML.
+   - Typographie système exclusivement (`-apple-system, Segoe UI, Roboto, sans-serif`).
+2. **Zéro stockage & Zéro traçage** :
+   - Aucun usage de `localStorage`, `sessionStorage` ou `document.cookie`.
+   - Aucun script d'analyse d'audience (analytics).
+   - Aucun appel réseau sortant (`fetch` ou `XMLHttpRequest`).
 3. **Content Security Policy (CSP)** :
-   Toutes les pages intègrent la métadonnée :
+   Présente sur `index.html`, `404.html` et `a/index.html` :
    ```html
    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self' 'unsafe-inline'; script-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'">
    ```
-4. **Indexation désactivée sur les liens** :
-   Les pages `/a/` et le fallback `404.html` portent `<meta name="robots" content="noindex,nofollow">`.
+   - N'autorise que `script-src 'self'` et `style-src 'self' 'unsafe-inline'`.
+   - **Aucun script inline** n'est présent dans les pages HTML : `404.html` et `a/index.html` chargent la source unique `assets/share.js`.
+4. **Anti Open-Redirect obligatoire** :
+   L'URL cible est analysée avec l'objet natif `URL`. Son protocole doit être `https:` et son hôte doit correspondre exactement à la liste blanche :
+   - `anime-sama.to`, `anime-sama.fr`, `anime-sama.net`, `anime-sama.com` (et sous-domaines `www.`)
+   - `franime.fr` (et `www.franime.fr`)
+   - `nakenime.tv` (et `www.nakenime.tv`)
+5. **Confidentialité de l'URL cible** :
+   L'URL décodée n'est jamais écrite dans le DOM visible, le titre, un attribut `data-*` ou la console.
 
 ---
 
@@ -158,23 +146,23 @@ Le site implémente plusieurs mécanismes de sécurité stricts :
 ```text
 /
 ├── .nojekyll                 # Empêche Jekyll d'ignorer le dossier .well-known
-├── index.html                # Page d'accueil sobre présentant l'application Android
+├── index.html                # Page d'accueil présentant l'application Android
 ├── 404.html                  # Fallback SPA GitHub Pages pour gérer /a/<code>
 ├── a/
 │   └── index.html            # Gestion du format de secours /a/?c=<code>
 ├── assets/
-│   ├── share.js              # Décodage, validation, sécurité et redirection (source unique)
-│   └── style.css             # Thème sombre sobre & premium partagé
+│   ├── share.js              # Décodage, validation et redirection (source unique)
+│   └── style.css             # Thème sombre sobre & premium (styles partagés)
 ├── .well-known/
 │   └── assetlinks.json       # Déclaration Android App Links (Digital Asset Links)
-└── README.md                 # Documentation complète et checklist de tests
+└── README.md                 # Documentation technique et checklist de tests
 ```
 
 ---
 
 ## 7. Checklist et Procédure de Test
 
-Remplacez `<DOMAINE>` par votre domaine (ex. `http://localhost:8080` en local ou `https://thomblydu54.github.io` en production).
+Remplacez `<DOMAINE>` par le domaine de test (ex. `http://localhost:8080` en local ou `https://thomblydu54.github.io` en production).
 
 | N° | Scénario de test | URL à tester | Résultat attendu |
 |---|---|---|---|
@@ -185,5 +173,5 @@ Remplacez `<DOMAINE>` par votre domaine (ex. `http://localhost:8080` en local ou
 | **5** | **Protocole malveillant (XSS `javascript:`)** | `<DOMAINE>/a/amF2YXNjcmlwdDphbGVydCgxKQ` *(décode vers `javascript:alert(1)`)* | Carte d'erreur sobre. Aucune exécution de script, aucune redirection. |
 | **6** | **Chemin `/a/` sans code** | `<DOMAINE>/a/` | Carte d'erreur sobre affichée directement, invitant à télécharger l'application. |
 | **7** | **Mise en page mobile 320 px** | N'importe quelle page sous viewport 320 px | La carte est parfaitement centrée, les boutons s'adaptent, pas de débordement horizontal ni de coupure de texte. |
-| **8** | **Digital Asset Links (App Links)** | `<DOMAINE>/.well-known/assetlinks.json` | Réponse HTTP `200` avec le fichier JSON complet contenant les packages `com.example.anime` et `com.thombly.anime`. |
+| **8** | **Digital Asset Links (App Links)** | `<DOMAINE>/.well-known/assetlinks.json` | Réponse HTTP `200` avec le fichier JSON complet contenant les deux entrées et les empreintes (y compris `__PLAY_APP_SIGNING_SHA256__`). |
 | **9** | **Forme de secours query string** | `<DOMAINE>/a/?c=aHR0cHM6Ly9mcmFuaW1lLmZyL2FuaW1lL2JsZWFjaA&stay=1` | Décode correctement vers la fiche Bleach sur franime.fr en mode test. |
